@@ -1,0 +1,18 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31515.178
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "NpcDialogGenerator", "NpcDialogGenerator.shproj", "{D095FFFD-BE26-495D-AE64-35A4FC9AF994}"
+EndProject
+Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		NpcDialogGenerator.projitems*{d095fffd-be26-495d-ae64-35a4fc9af994}*SharedItemsImports = 13
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C23C7A00-6EFA-471D-9BB7-A17E3CAE71BE}
+	EndGlobalSection
+EndGlobal
