@@ -5,12 +5,35 @@ VisualStudioVersion = 16.0.31515.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "NpcDialogGenerator", "NpcDialogGenerator.shproj", "{D095FFFD-BE26-495D-AE64-35A4FC9AF994}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{01D198CE-3148-4E89-BBF7-E33BB836EC72}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{E7A540FC-5E65-46C9-91DA-74F2BC999C28}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Form", "Form", "{7854B71A-044D-42AF-8C62-DFC7DC8F78CB}"
+EndProject
+Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "NpcDialogCore", "src\NpcDialogCore\NpcDialogCore.vbproj", "{F91DBFCB-A5A9-440B-90EF-C7AA11E35F60}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		NpcDialogGenerator.projitems*{d095fffd-be26-495d-ae64-35a4fc9af994}*SharedItemsImports = 13
 	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F91DBFCB-A5A9-440B-90EF-C7AA11E35F60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F91DBFCB-A5A9-440B-90EF-C7AA11E35F60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F91DBFCB-A5A9-440B-90EF-C7AA11E35F60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F91DBFCB-A5A9-440B-90EF-C7AA11E35F60}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E7A540FC-5E65-46C9-91DA-74F2BC999C28} = {01D198CE-3148-4E89-BBF7-E33BB836EC72}
+		{7854B71A-044D-42AF-8C62-DFC7DC8F78CB} = {01D198CE-3148-4E89-BBF7-E33BB836EC72}
+		{F91DBFCB-A5A9-440B-90EF-C7AA11E35F60} = {E7A540FC-5E65-46C9-91DA-74F2BC999C28}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C23C7A00-6EFA-471D-9BB7-A17E3CAE71BE}
