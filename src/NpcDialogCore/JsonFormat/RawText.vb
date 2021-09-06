@@ -41,4 +41,29 @@ Public Class RawText
         End Class
 
     End Class
+
+    Public Shared Function getRawText(rawTextStr As Object, langDic As Dictionary(Of String, String)) As String
+        If TypeOf rawTextStr Is String Then
+            Return rawTextStr
+        ElseIf TypeOf rawTextStr Is RawText Then
+            Dim t As RawText = rawTextStr
+            Dim str As String = ""
+            For Each i As rawTextItem In t.rawtext
+                If i.text IsNot Nothing Then
+                    str += i.text
+                Else
+                    If i.translate IsNot Nothing Then
+                        If langDic.ContainsKey(i.translate) Then
+                            str += langDic(i.translate)
+                        Else
+                            str += i.translate
+                        End If
+                    End If
+                End If
+            Next
+            Return str
+        Else
+            Return Nothing
+        End If
+    End Function
 End Class
