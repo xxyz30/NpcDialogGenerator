@@ -1,5 +1,6 @@
 ﻿Imports System.Text.Json
 Public Class Scenes
+    Implements ICloneable
 
     Public Property scenes As List(Of ScencesItem)
 
@@ -46,17 +47,20 @@ Public Class Scenes
         End Class
     End Class
 
-    Private Shared Function parseRawText(v As Object) As Object
-        If TypeOf v Is String Then
-            Return v
-        ElseIf TypeOf v Is JsonElement Then
+    Private Shared Function parseRawText(v As JsonElement) As Object
+        If v.ValueKind = JsonValueKind.String Then
+            Return v.GetString
+        ElseIf v.ValueKind = JsonValueKind.Object Then
             Try
                 Dim t As RawText = JsonSerializer.Deserialize(v.ToString, GetType(RawText))
                 Return t
             Catch ex As Exception
-
             End Try
         End If
         Return Nothing
+    End Function
+
+    Public Function Clone() As Object Implements ICloneable.Clone
+        Return JsonSerializer.Deserialize(JsonSerializer.Serialize(Me, New JsonSerializerOptions() With {.IgnoreNullValues = True}), Me.GetType)
     End Function
 End Class

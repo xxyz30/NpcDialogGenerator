@@ -56,4 +56,9 @@ Public Class DialogDetailsControl
         fillRColor = Brushes.White
         Me.Refresh()
     End Sub
+
+    Private Sub DialogDetailsControl_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles Me.MouseDoubleClick
+        Dim t As New DialogEditor(dialogs.dialog, langDic)
+        t.ShowDialog()
+    End Sub
 End Class
