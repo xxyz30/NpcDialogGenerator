@@ -23,10 +23,13 @@ Partial Class MainForm
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MainForm))
+        Me.langNode = New System.Windows.Forms.TreeNode("语言")
+        Me.dialogueNode = New System.Windows.Forms.TreeNode("场景")
         Me.UpStrip = New System.Windows.Forms.ToolStrip()
-        Me.ToolStripButton1 = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripButton2 = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripButton3 = New System.Windows.Forms.ToolStripButton()
+        Me.OpenLang = New System.Windows.Forms.ToolStripButton()
+        Me.OpenDialog = New System.Windows.Forms.ToolStripButton()
+        Me.OpenDialogFolder = New System.Windows.Forms.ToolStripButton()
+        Me.AddNewDialogGroup = New System.Windows.Forms.ToolStripButton()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.文件ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.保存ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -50,39 +53,48 @@ Partial Class MainForm
         '
         'UpStrip
         '
-        Me.UpStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton1, Me.ToolStripButton2, Me.ToolStripButton3})
+        Me.UpStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenLang, Me.OpenDialog, Me.OpenDialogFolder, Me.AddNewDialogGroup})
         Me.UpStrip.Location = New System.Drawing.Point(0, 25)
         Me.UpStrip.Name = "UpStrip"
         Me.UpStrip.Size = New System.Drawing.Size(903, 25)
         Me.UpStrip.TabIndex = 0
         Me.UpStrip.Text = "ToolStrip1"
         '
-        'ToolStripButton1
+        'OpenLang
         '
-        Me.ToolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton1.Image = CType(resources.GetObject("ToolStripButton1.Image"), System.Drawing.Image)
-        Me.ToolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButton1.Name = "ToolStripButton1"
-        Me.ToolStripButton1.Size = New System.Drawing.Size(23, 22)
-        Me.ToolStripButton1.Text = "打开lang文件"
+        Me.OpenLang.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.OpenLang.Image = CType(resources.GetObject("OpenLang.Image"), System.Drawing.Image)
+        Me.OpenLang.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.OpenLang.Name = "OpenLang"
+        Me.OpenLang.Size = New System.Drawing.Size(23, 22)
+        Me.OpenLang.Text = "打开lang文件"
         '
-        'ToolStripButton2
+        'OpenDialog
         '
-        Me.ToolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton2.Image = CType(resources.GetObject("ToolStripButton2.Image"), System.Drawing.Image)
-        Me.ToolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButton2.Name = "ToolStripButton2"
-        Me.ToolStripButton2.Size = New System.Drawing.Size(23, 22)
-        Me.ToolStripButton2.Text = "ToolStripButton2"
+        Me.OpenDialog.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.OpenDialog.Image = CType(resources.GetObject("OpenDialog.Image"), System.Drawing.Image)
+        Me.OpenDialog.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.OpenDialog.Name = "OpenDialog"
+        Me.OpenDialog.Size = New System.Drawing.Size(23, 22)
+        Me.OpenDialog.Text = "ToolStripButton2"
         '
-        'ToolStripButton3
+        'OpenDialogFolder
         '
-        Me.ToolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.ToolStripButton3.Image = CType(resources.GetObject("ToolStripButton3.Image"), System.Drawing.Image)
-        Me.ToolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButton3.Name = "ToolStripButton3"
-        Me.ToolStripButton3.Size = New System.Drawing.Size(23, 22)
-        Me.ToolStripButton3.Text = "ToolStripButton3"
+        Me.OpenDialogFolder.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.OpenDialogFolder.Image = CType(resources.GetObject("OpenDialogFolder.Image"), System.Drawing.Image)
+        Me.OpenDialogFolder.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.OpenDialogFolder.Name = "OpenDialogFolder"
+        Me.OpenDialogFolder.Size = New System.Drawing.Size(23, 22)
+        Me.OpenDialogFolder.Text = "ToolStripButton3"
+        '
+        'AddNewDialogGroup
+        '
+        Me.AddNewDialogGroup.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.AddNewDialogGroup.Image = CType(resources.GetObject("AddNewDialogGroup.Image"), System.Drawing.Image)
+        Me.AddNewDialogGroup.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.AddNewDialogGroup.Name = "AddNewDialogGroup"
+        Me.AddNewDialogGroup.Size = New System.Drawing.Size(23, 22)
+        Me.AddNewDialogGroup.Text = "ToolStripButton1"
         '
         'MenuStrip1
         '
@@ -155,6 +167,11 @@ Partial Class MainForm
         Me.ProjTree.Dock = System.Windows.Forms.DockStyle.Fill
         Me.ProjTree.Location = New System.Drawing.Point(0, 0)
         Me.ProjTree.Name = "ProjTree"
+        langNode.Name = "langNode"
+        langNode.Text = "语言"
+        dialogueNode.Name = "dialogueNode"
+        dialogueNode.Text = "场景"
+        Me.ProjTree.Nodes.AddRange(New System.Windows.Forms.TreeNode() {langNode, dialogueNode})
         Me.ProjTree.Size = New System.Drawing.Size(265, 459)
         Me.ProjTree.TabIndex = 0
         '
@@ -214,9 +231,9 @@ Partial Class MainForm
     Friend WithEvents 文件ToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents 保存ToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents 另存为ToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ToolStripButton1 As ToolStripButton
-    Friend WithEvents ToolStripButton2 As ToolStripButton
-    Friend WithEvents ToolStripButton3 As ToolStripButton
+    Friend WithEvents OpenLang As ToolStripButton
+    Friend WithEvents OpenDialog As ToolStripButton
+    Friend WithEvents OpenDialogFolder As ToolStripButton
     Friend WithEvents SplitContainer1 As SplitContainer
     Friend WithEvents ProjTree As TreeView
     Friend WithEvents StatusStrip1 As StatusStrip
@@ -226,4 +243,7 @@ Partial Class MainForm
     Friend WithEvents OpenFileDialog1 As OpenFileDialog
     Friend WithEvents FolderBrowserDialog1 As FolderBrowserDialog
     Friend WithEvents ContentPanel As Panel
+    Friend WithEvents AddNewDialogGroup As ToolStripButton
+    Friend dialogueNode As System.Windows.Forms.TreeNode
+    Friend langNode As TreeNode
 End Class

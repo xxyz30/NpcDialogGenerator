@@ -112,7 +112,7 @@ Partial Class DialogEditor
         Me.Name = "DialogEditor"
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
-        Me.Text = "编辑场景"
+        Me.Text = "编辑剧情组"
         Me.TableLayoutPanel1.ResumeLayout(False)
         Me.ResumeLayout(False)
 

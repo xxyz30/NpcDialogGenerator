@@ -57,17 +57,19 @@ Public Class NpcDialogGeneratorMain
         End Try
     End Sub
 
-    Public Sub addDialogFile(f As FileInfo)
+    Public Function addDialogFile(f As FileInfo) As JsonFormatMain
         Try
             Dim str As String = f.OpenText.ReadToEnd
             Dim t As JsonFormatMain = JsonSerializer.Deserialize(str, GetType(JsonFormatMain), JsonReadOption)
             dialogs.Add(t)
             dialogueFile.Add(f)
+            Return t
         Catch ex As Exception
             Throw
         End Try
-    End Sub
+    End Function
     Public Sub addDialogFolder(d As DirectoryInfo)
+        dialogs.Clear()
         Try
             For Each i As FileInfo In d.GetFiles("*.json")
                 Try
