@@ -17,7 +17,9 @@ Public Class DialogEditorDetails
 
 
         tagBox.Text = scenes.scene_tag
-        speakerBox.Text = scenes.npc_name.ToString
+        If scenes.npc_name IsNot Nothing Then
+            speakerBox.Text = scenes.npc_name.ToString
+        End If
 
         openRunBox.Text = listToStr(scenes.on_open_commands)
         CloseRunbox.Text = listToStr(scenes.on_close_commands)

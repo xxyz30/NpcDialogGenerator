@@ -45,7 +45,9 @@ Public Class NpcDialogGeneratorMain
                             For i As Integer = 1 To t.Length - 1
                                 tt += t(i)
                             Next
-                            langDic.Add(t(0), tt)
+                            If Not langDic.ContainsKey(t(0)) Then
+                                langDic.Add(t(0), tt)
+                            End If
                         End If
                     End If
                 End While
@@ -59,7 +61,11 @@ Public Class NpcDialogGeneratorMain
 
     Public Function addDialogFile(f As FileInfo) As JsonFormatMain
         Try
-            Dim str As String = f.OpenText.ReadToEnd
+            Dim str As String
+            Using tt As StreamReader = f.OpenText
+                str = tt.ReadToEnd
+                tt.Close()
+            End Using
             Dim t As JsonFormatMain = JsonSerializer.Deserialize(str, GetType(JsonFormatMain), JsonReadOption)
             dialogs.Add(t)
             dialogueFile.Add(f)

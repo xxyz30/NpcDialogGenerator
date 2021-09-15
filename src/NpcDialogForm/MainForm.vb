@@ -2,22 +2,40 @@
 Imports System.IO
 Public Class MainForm
     Private npcDialogDatas As New NpcDialogGeneratorMain
-    Private Sub MainForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
+    Private isLoadedProj As Boolean = False
+    Public Sub New()
+        InitializeComponent()
+        langNode = ProjTree.Nodes(0)
+        dialogueNode = ProjTree.Nodes(1)
+        AddFolder.Enabled = False
+        AddNewDialogGroup.Enabled = False
+    End Sub
+    Public Sub New(p As DirectoryInfo)
+        MyClass.New()
+        Try
+            '拖入文件夹，则会当作工程
+            '扫描项目
+            dialogueNode.Nodes.Clear()
+            setDialogueNode(p, dialogueNode)
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+        End Try
+        isLoadedProj = True
+        AddFolder.Enabled = True
+        AddNewDialogGroup.Enabled = True
     End Sub
 
-    Private Sub Button1_Click(sender As Object, e As EventArgs)
-        Dim a As New NpcDialogGeneratorMain
-        a.addDialogFile(New FileInfo("C:\Users\ts187\Desktop\新建文本文档.json"))
-    End Sub
 
     Private Sub ProjTree_AfterSelect(sender As Object, e As TreeViewEventArgs) Handles ProjTree.AfterSelect
         Dim a As TreeNode = getRootNode(e.Node)
-        If a Is langNode Then
-
+        If a Is langNode Or Not isLoadedProj Then
+            AddNewDialogGroup.Enabled = False
+            AddFolder.Enabled = False
         ElseIf a Is dialogueNode Then
             ContentPanel.Controls.Clear()
             getDialogues(e.Node)
+            AddNewDialogGroup.Enabled = True
+            AddFolder.Enabled = True
         Else
         End If
     End Sub
@@ -68,12 +86,26 @@ Public Class MainForm
                     '    Continue For
                 End If
             ElseIf Directory.Exists(i) Then
+                Dim f As New DirectoryInfo(i)
+                If isLoadedProj Then
+                    Dim aa As DialogResult = MsgBox("打开新窗口？", vbYesNoCancel + vbQuestion, "询问")
+                    If aa = DialogResult.Yes Then
+                        '新实例化窗体
+                        Dim newForm As New MainForm(f)
+                        newForm.Show()
+                        Return
+                    ElseIf aa = DialogResult.Cancel Then
+                        Return
+                    End If
+                Else
+                    isLoadedProj = True
+                End If
                 Try
-                    Dim f As New DirectoryInfo(i)
                     '拖入文件夹，则会当作工程
                     '扫描项目
                     dialogueNode.Nodes.Clear()
                     setDialogueNode(f, dialogueNode)
+                    ContentPanel.Controls.Clear()
                 Catch ex As Exception
                     MsgBox(ex.ToString)
                 End Try
@@ -117,4 +149,33 @@ Public Class MainForm
         Public storyList As List(Of DialogDetailsControl)
         Public Directory As DirectoryInfo
     End Class
+
+    Private Sub OpenLang_Click(sender As Object, e As EventArgs) Handles OpenLang.Click
+        If OpenFileDialog1.ShowDialog() = DialogResult.OK Then
+            ProjTree_DragDrop(Nothing, New DragEventArgs(New DataObject(DataFormats.FileDrop, OpenFileDialog1.FileNames), -1, 0, 0, DragDropEffects.All, DragDropEffects.All))
+        End If
+    End Sub
+
+    Private Sub OpenDialog_Click(sender As Object, e As EventArgs) Handles OpenDialog.Click
+        If FolderBrowserDialog1.ShowDialog() = DialogResult.OK Then
+            Dim t As String() = {FolderBrowserDialog1.SelectedPath}
+            ProjTree_DragDrop(Nothing, New DragEventArgs(New DataObject(DataFormats.FileDrop, t), -1, 0, 0, DragDropEffects.All, DragDropEffects.All))
+        End If
+    End Sub
+
+    Private Sub AddFolder_Click(sender As Object, e As EventArgs) Handles AddFolder.Click
+        Dim p As String = CType(ProjTree.SelectedNode.Tag, TreeNodeWithList).Directory.FullName
+        Dim t As New AddFolder(p)
+        If t.ShowDialog() = DialogResult.OK Then
+            Try
+                Dim dir As DirectoryInfo = Directory.CreateDirectory(t.pathStr)
+                Dim node As TreeNode = ProjTree.SelectedNode.Nodes.Add(dir.Name)
+                node.ToolTipText = dir.FullName
+                node.Tag = New TreeNodeWithList With {.Directory = dir, .storyList = New List(Of DialogDetailsControl)}
+            Catch ex As Exception
+                MsgBox(ex.ToString)
+            End Try
+        End If
+    End Sub
+
 End Class
