@@ -22,6 +22,7 @@ Partial Class MainForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MainForm))
         Dim TreeNode1 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("语言")
         Dim TreeNode2 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("场景")
         Me.UpStrip = New System.Windows.Forms.ToolStrip()
@@ -29,6 +30,8 @@ Partial Class MainForm
         Me.OpenDialog = New System.Windows.Forms.ToolStripButton()
         Me.AddNewDialogGroup = New System.Windows.Forms.ToolStripButton()
         Me.AddFolder = New System.Windows.Forms.ToolStripButton()
+        Me.addActor = New System.Windows.Forms.ToolStripButton()
+        Me.SaveProj = New System.Windows.Forms.ToolStripButton()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.文件ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.保存ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -42,6 +45,7 @@ Partial Class MainForm
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
+        Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.UpStrip.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -52,7 +56,7 @@ Partial Class MainForm
         '
         'UpStrip
         '
-        Me.UpStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenLang, Me.OpenDialog, Me.AddNewDialogGroup, Me.AddFolder})
+        Me.UpStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenLang, Me.OpenDialog, Me.AddNewDialogGroup, Me.AddFolder, Me.addActor, Me.SaveProj})
         Me.UpStrip.Location = New System.Drawing.Point(0, 25)
         Me.UpStrip.Name = "UpStrip"
         Me.UpStrip.Size = New System.Drawing.Size(903, 25)
@@ -94,6 +98,24 @@ Partial Class MainForm
         Me.AddFolder.Name = "AddFolder"
         Me.AddFolder.Size = New System.Drawing.Size(23, 22)
         Me.AddFolder.Text = "打开剧情组文件夹"
+        '
+        'addActor
+        '
+        Me.addActor.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.addActor.Image = CType(resources.GetObject("addActor.Image"), System.Drawing.Image)
+        Me.addActor.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.addActor.Name = "addActor"
+        Me.addActor.Size = New System.Drawing.Size(23, 22)
+        Me.addActor.Text = "添加/编辑 角色"
+        '
+        'SaveProj
+        '
+        Me.SaveProj.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.SaveProj.Image = CType(resources.GetObject("SaveProj.Image"), System.Drawing.Image)
+        Me.SaveProj.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.SaveProj.Name = "SaveProj"
+        Me.SaveProj.Size = New System.Drawing.Size(23, 22)
+        Me.SaveProj.Text = "保存工程"
         '
         'MenuStrip1
         '
@@ -201,6 +223,10 @@ Partial Class MainForm
         Me.OpenFileDialog1.Filter = "语言包文件|*.lang"
         Me.OpenFileDialog1.Multiselect = True
         '
+        'SaveFileDialog1
+        '
+        Me.SaveFileDialog1.Filter = "NPCDialogue生成器工程文件|*.npc_dia.json"
+        '
         'MainForm
         '
         Me.AllowDrop = True
@@ -248,4 +274,7 @@ Partial Class MainForm
     Friend dialogueNode As System.Windows.Forms.TreeNode
     Friend langNode As TreeNode
     Friend WithEvents AddFolder As ToolStripButton
+    Friend WithEvents addActor As ToolStripButton
+    Friend WithEvents SaveProj As ToolStripButton
+    Friend WithEvents SaveFileDialog1 As SaveFileDialog
 End Class

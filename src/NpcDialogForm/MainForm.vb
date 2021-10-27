@@ -1,8 +1,15 @@
 ﻿Imports NpcDialogCore
 Imports System.IO
+Imports System.Text
+Imports System.Text.Encodings.Web
+Imports System.Text.Json
+Imports System.Text.Unicode
+
 Public Class MainForm
     Private npcDialogDatas As New NpcDialogGeneratorMain
     Private isLoadedProj As Boolean = False
+    Private projPath As FileInfo
+    Public Shared ReadOnly JsonWriteOptions As New JsonSerializerOptions With {.IgnoreNullValues = True, .WriteIndented = True, .Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin)}
     Public Sub New()
         InitializeComponent()
         langNode = ProjTree.Nodes(0)
@@ -10,20 +17,41 @@ Public Class MainForm
         AddFolder.Enabled = False
         AddNewDialogGroup.Enabled = False
     End Sub
-    Public Sub New(p As DirectoryInfo)
+    Public Sub New(p As FileInfo)
         MyClass.New()
+        loadProj(p)
+        'If loadProj(p) Then
+
+        'End If
+    End Sub
+    ''' <summary>
+    ''' 加载项目
+    ''' </summary>
+    ''' <param name="f"></param>
+    ''' <returns></returns>
+    Private Function loadProj(f As FileInfo) As Boolean
         Try
-            '拖入文件夹，则会当作工程
+            '打开新项目
             '扫描项目
+            Dim proj As New ProjectParser(f.FullName)
+            Me.npcDialogDatas.project = proj
+
+            setLangNode(proj.langs)
+
             dialogueNode.Nodes.Clear()
-            setDialogueNode(p, dialogueNode)
+            setDialogueNode(proj.dialogue, dialogueNode)
+
+            ContentPanel.Controls.Clear()
         Catch ex As Exception
             MsgBox(ex.ToString)
+            Return False
         End Try
         isLoadedProj = True
         AddFolder.Enabled = True
         AddNewDialogGroup.Enabled = True
-    End Sub
+        projPath = f
+        Return True
+    End Function
 
 
     Private Sub ProjTree_AfterSelect(sender As Object, e As TreeViewEventArgs) Handles ProjTree.AfterSelect
@@ -71,28 +99,40 @@ Public Class MainForm
                         Dim p As New FileInfo(i)
                         npcDialogDatas.addLanguage(p)
                         langNode.Nodes.Add(p.Name).ToolTipText = p.FullName
+                        npcDialogDatas.project.addLang(p)
                     Catch ex As Exception
 
                     End Try
-                    'ElseIf i.ToLower.EndsWith(".json") Then
-                    '    Try
-                    '        Dim p As New FileInfo(i)
-                    '        'npcDialogDatas.addDialogFile(p)
-                    '        '直接打开一个对话框，会直接跳转到编辑，不添加进去
-                    '    Catch ex As Exception
-
-                    '    End Try
-                    'Else
-                    '    Continue For
+                ElseIf i.ToLower.EndsWith(".npc_dia.json") Then
+                    '是一个项目文件
+                    Dim f As New FileInfo(i)
+                    If isLoadedProj Then
+                        Dim aa As DialogResult = MsgBox("打开新窗口？", vbYesNoCancel + vbQuestion, "询问")
+                        If aa = DialogResult.Yes Then
+                            '新实例化窗体
+                            Dim newForm As New MainForm(f)
+                            newForm.Show()
+                            Return
+                        ElseIf aa = DialogResult.Cancel Then
+                            Return
+                        End If
+                    Else
+                        Try
+                            loadProj(f)
+                        Catch ex As Exception
+                            MsgBox(ex.ToString)
+                        End Try
+                    End If
                 End If
+
             ElseIf Directory.Exists(i) Then
                 Dim f As New DirectoryInfo(i)
                 If isLoadedProj Then
                     Dim aa As DialogResult = MsgBox("打开新窗口？", vbYesNoCancel + vbQuestion, "询问")
                     If aa = DialogResult.Yes Then
                         '新实例化窗体
-                        Dim newForm As New MainForm(f)
-                        newForm.Show()
+                        'Dim newForm As New MainForm(f)
+                        'newForm.Show()
                         Return
                     ElseIf aa = DialogResult.Cancel Then
                         Return
@@ -133,6 +173,14 @@ Public Class MainForm
             t.ToolTipText = i.FullName
 
             setDialogueNode(i, t)
+        Next
+    End Sub
+    Private Sub setLangNode(l As List(Of FileInfo))
+        langNode.Nodes.Clear()
+        If l Is Nothing Then Return
+        For Each i As FileInfo In l
+            npcDialogDatas.addLanguage(i)
+            langNode.Nodes.Add(i.Name).ToolTipText = i.FullName
         Next
     End Sub
 
@@ -178,4 +226,40 @@ Public Class MainForm
         End If
     End Sub
 
+    Private Sub AddNewDialogGroup_Click(sender As Object, e As EventArgs) Handles AddNewDialogGroup.Click
+        Dim node As TreeNode = ProjTree.SelectedNode
+        Dim dir As TreeNodeWithList = node.Tag
+        Dim t As New AddDialogue(npcDialogDatas.getLangDic)
+        If t.ShowDialog = DialogResult.OK Then
+            Dim jsonStr As String = JsonSerializer.Serialize(t.JsonStr, JsonWriteOptions)
+            '尝试创建文件和写入内容
+            Dim p As New FileInfo(Path.Combine(dir.Directory.FullName, t.dialogueName + ".json"))
+            Try
+                Using sr As FileStream = p.Create
+                    sr.Write(New UTF8Encoding(True).GetBytes(jsonStr), 0, jsonStr.Length)
+                    sr.Close()
+                End Using
+                dir.storyList.Add(New DialogDetailsControl(t.JsonStr, npcDialogDatas.getLangDic))
+            Catch ex As Exception
+                MsgBox(ex.ToString)
+            End Try
+        End If
+    End Sub
+    Private Sub addActor_Click(sender As Object, e As EventArgs) Handles addActor.Click
+        Dim d As New ActorEditor(npcDialogDatas)
+        d.ShowDialog()
+    End Sub
+
+    Private Sub SaveProj_Click(sender As Object, e As EventArgs) Handles SaveProj.Click
+        If projPath IsNot Nothing Then
+            Using sw As New StreamWriter(projPath.FullName, False)
+                sw.Write(JsonSerializer.Serialize(npcDialogDatas.project.proj))
+            End Using
+        Else
+            If SaveFileDialog1.ShowDialog() = DialogResult.OK Then
+                projPath = New FileInfo(SaveFileDialog1.FileName)
+                SaveProj_Click(sender, e)
+            End If
+        End If
+    End Sub
 End Class

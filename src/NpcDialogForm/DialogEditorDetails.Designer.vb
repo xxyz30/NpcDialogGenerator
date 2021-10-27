@@ -28,13 +28,19 @@ Partial Class DialogEditorDetails
         Me.Label1 = New System.Windows.Forms.Label()
         Me.tagBox = New System.Windows.Forms.TextBox()
         Me.Label2 = New System.Windows.Forms.Label()
-        Me.speakerBox = New System.Windows.Forms.TextBox()
         Me.Label3 = New System.Windows.Forms.LinkLabel()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.openRunBox = New System.Windows.Forms.TextBox()
         Me.Label5 = New System.Windows.Forms.Label()
         Me.CloseRunbox = New System.Windows.Forms.TextBox()
         Me.Label6 = New System.Windows.Forms.Label()
+        Me.ListView1 = New System.Windows.Forms.ListView()
+        Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader()
+        Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader()
+        Me.Label7 = New System.Windows.Forms.Label()
+        Me.Button1 = New System.Windows.Forms.Button()
+        Me.Button2 = New System.Windows.Forms.Button()
+        Me.speakerBox = New System.Windows.Forms.ComboBox()
         Me.TableLayoutPanel1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -46,7 +52,7 @@ Partial Class DialogEditorDetails
         Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
         Me.TableLayoutPanel1.Controls.Add(Me.OK_Button, 0, 0)
         Me.TableLayoutPanel1.Controls.Add(Me.Cancel_Button, 1, 0)
-        Me.TableLayoutPanel1.Location = New System.Drawing.Point(333, 524)
+        Me.TableLayoutPanel1.Location = New System.Drawing.Point(333, 410)
         Me.TableLayoutPanel1.Margin = New System.Windows.Forms.Padding(4)
         Me.TableLayoutPanel1.Name = "TableLayoutPanel1"
         Me.TableLayoutPanel1.RowCount = 1
@@ -98,13 +104,6 @@ Partial Class DialogEditorDetails
         Me.Label2.Size = New System.Drawing.Size(56, 17)
         Me.Label2.TabIndex = 3
         Me.Label2.Text = "说话者："
-        '
-        'speakerBox
-        '
-        Me.speakerBox.Location = New System.Drawing.Point(323, 21)
-        Me.speakerBox.Name = "speakerBox"
-        Me.speakerBox.Size = New System.Drawing.Size(175, 23)
-        Me.speakerBox.TabIndex = 4
         '
         'Label3
         '
@@ -158,20 +157,80 @@ Partial Class DialogEditorDetails
         Me.Label6.Size = New System.Drawing.Size(0, 17)
         Me.Label6.TabIndex = 11
         '
+        'ListView1
+        '
+        Me.ListView1.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2})
+        Me.ListView1.HideSelection = False
+        Me.ListView1.Location = New System.Drawing.Point(21, 259)
+        Me.ListView1.Name = "ListView1"
+        Me.ListView1.Size = New System.Drawing.Size(477, 141)
+        Me.ListView1.TabIndex = 12
+        Me.ListView1.UseCompatibleStateImageBehavior = False
+        Me.ListView1.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader1
+        '
+        Me.ColumnHeader1.Text = "按钮名称"
+        Me.ColumnHeader1.Width = 200
+        '
+        'ColumnHeader2
+        '
+        Me.ColumnHeader2.Text = "命令个数"
+        Me.ColumnHeader2.Width = 250
+        '
+        'Label7
+        '
+        Me.Label7.AutoSize = True
+        Me.Label7.Location = New System.Drawing.Point(21, 239)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(68, 17)
+        Me.Label7.TabIndex = 13
+        Me.Label7.Text = "按钮列表："
+        '
+        'Button1
+        '
+        Me.Button1.Location = New System.Drawing.Point(21, 414)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(68, 23)
+        Me.Button1.TabIndex = 14
+        Me.Button1.Text = "添加"
+        Me.Button1.UseVisualStyleBackColor = True
+        '
+        'Button2
+        '
+        Me.Button2.Location = New System.Drawing.Point(95, 414)
+        Me.Button2.Name = "Button2"
+        Me.Button2.Size = New System.Drawing.Size(68, 23)
+        Me.Button2.TabIndex = 15
+        Me.Button2.Text = "删除"
+        Me.Button2.UseVisualStyleBackColor = True
+        '
+        'speakerBox
+        '
+        Me.speakerBox.FormattingEnabled = True
+        Me.speakerBox.Location = New System.Drawing.Point(312, 19)
+        Me.speakerBox.Name = "speakerBox"
+        Me.speakerBox.Size = New System.Drawing.Size(193, 25)
+        Me.speakerBox.TabIndex = 16
+        '
         'DialogEditorDetails
         '
         Me.AcceptButton = Me.OK_Button
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 17.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.Cancel_Button
-        Me.ClientSize = New System.Drawing.Size(517, 578)
+        Me.ClientSize = New System.Drawing.Size(517, 464)
+        Me.Controls.Add(Me.speakerBox)
+        Me.Controls.Add(Me.Button2)
+        Me.Controls.Add(Me.Button1)
+        Me.Controls.Add(Me.Label7)
+        Me.Controls.Add(Me.ListView1)
         Me.Controls.Add(Me.Label6)
         Me.Controls.Add(Me.CloseRunbox)
         Me.Controls.Add(Me.Label5)
         Me.Controls.Add(Me.openRunBox)
         Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.Label3)
-        Me.Controls.Add(Me.speakerBox)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.tagBox)
         Me.Controls.Add(Me.Label1)
@@ -195,11 +254,17 @@ Partial Class DialogEditorDetails
     Friend WithEvents Label1 As Label
     Friend WithEvents tagBox As TextBox
     Friend WithEvents Label2 As Label
-    Friend WithEvents speakerBox As TextBox
     Friend WithEvents Label4 As Label
     Friend WithEvents openRunBox As TextBox
     Friend WithEvents Label5 As Label
     Friend WithEvents CloseRunbox As TextBox
     Friend WithEvents Label6 As Label
     Friend WithEvents Label3 As LinkLabel
+    Friend WithEvents ListView1 As ListView
+    Friend WithEvents Label7 As Label
+    Friend WithEvents ColumnHeader1 As ColumnHeader
+    Friend WithEvents ColumnHeader2 As ColumnHeader
+    Friend WithEvents Button1 As Button
+    Friend WithEvents Button2 As Button
+    Friend WithEvents speakerBox As ComboBox
 End Class

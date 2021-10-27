@@ -25,6 +25,8 @@ Public Class NpcDialogGeneratorMain
     ''' dialogue定义
     ''' </summary>
     Private dialogs As New List(Of JsonFormatMain)
+
+    Public project As New ProjectParser
     ''' <summary>
     ''' 增加一个lang文件
     ''' </summary>
@@ -95,5 +97,8 @@ Public Class NpcDialogGeneratorMain
 
     Public Function getLangDic() As Dictionary(Of String, String)
         Return langDic
+    End Function
+    Public Function getLocalLang(key As String) As String
+        If langDic.ContainsKey(key) Then Return langDic(key) Else Return key
     End Function
 End Class

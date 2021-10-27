@@ -8,15 +8,17 @@ Public Class RawTextEdit
     End Sub
     Public Sub New(raw As Object, lang As Dictionary(Of String, String))
         MyClass.New
-        If TypeOf raw Is String Then
-            ShowText.Checked = True
-            TextBox2.Text = raw
-            UseRawText_CheckedChanged(Nothing, Nothing)
-        ElseIf TypeOf raw Is RawText Then
-            Dim t As RawText = raw
-            TextBox1.Text = t.rawtext(0).translate
-        Else
-            Throw New Exception("不支持的类型：" + raw.GetType.ToString)
+        If raw IsNot Nothing Then
+            If TypeOf raw Is String Then
+                ShowText.Checked = True
+                TextBox2.Text = raw
+                UseRawText_CheckedChanged(Nothing, Nothing)
+            ElseIf TypeOf raw Is RawText Then
+                Dim t As RawText = raw
+                TextBox1.Text = t.rawtext(0).translate
+            Else
+                Throw New Exception("不支持的类型：" + raw.GetType.ToString)
+            End If
         End If
         Me.lang = lang
     End Sub

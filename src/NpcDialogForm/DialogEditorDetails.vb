@@ -53,4 +53,17 @@ Public Class DialogEditorDetails
         End If
     End Sub
 
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        Dim t As New ButtonsDialogue
+        If t.ShowDialog = DialogResult.OK Then
+
+        End If
+    End Sub
+
+    Private Sub ListView1_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles ListView1.MouseDoubleClick
+        Dim t As New ButtonsDialogue(scenes.buttons(ListView1.Items.IndexOf(ListView1.SelectedItems(0))), lang)
+        If t.ShowDialog = DialogResult.OK Then
+
+        End If
+    End Sub
 End Class

@@ -21,7 +21,13 @@ Public Class Scenes
                 Return contentText
             End Get
             Set(value As Object)
-                contentText = parseRawText(value)
+                If TypeOf value Is JsonElement Then
+                    contentText = parseRawText(value)
+                ElseIf TypeOf value Is RawText OrElse TypeOf value Is String Then
+                    contentText = value
+                Else
+                    MsgBox(value.GetType.ToString)
+                End If
             End Set
         End Property
         Private contentText As Object
@@ -39,7 +45,11 @@ Public Class Scenes
                     Return buttonName
                 End Get
                 Set(value As Object)
-                    buttonName = parseRawText(value)
+                    If TypeOf value Is JsonElement Then
+                        buttonName = parseRawText(value)
+                    ElseIf TypeOf value Is RawText OrElse TypeOf value Is String Then
+                        buttonName = value
+                    End If
                 End Set
             End Property
 
